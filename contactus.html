@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us</title>
+  <link rel="stylesheet" type="text/css" href="restaurant.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+    }
+    .contact-section {
+      margin-bottom: 20px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .contact-item img {
+      margin-right: 10px;
+    }
+    table {
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #fbf2f2;
+      padding: 8px 12px;
+      text-align: left;
+      color: azure;
+    }
+    caption {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: rgb(213, 2, 2);
+    }
+    /* Form styling */
+    .contact-form {
+      max-width: 400px;
+      margin-top: 30px;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    .contact-form button {
+      padding: 8px 16px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    #responseMessage {
+      margin-top: 10px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Contact Us</h2>
+  <p>Please give us a call or email us, and we'll get back to you.</p>
+
+  <div class="contact-section">
+    <div class="contact-item">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwd44C58hOvMZvkKnaa-YPV6cZ3FOGS6V7ng&usqp=CAU" height="50" width="50" alt="Location icon">
+      <div>
+        <h3>Our Location</h3>
+        <p>577 Kohinoor Square, MN Avenue, Dadar-West</p>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLXGv2dMh640mgrv9fGhbU4Zi6M01TN5JGoQ&usqp=CAU" height="50" width="50" alt="Phone icon">
+      <div>
+        <h3>Phone</h3>
+        <p>+91-9930976826</p>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkYAWMVIgwuLYMueiFJiyhS1q47eKPkY_ZEQ&usqp=CAU" height="50" width="50" alt="Email icon">
+      <div>
+        <h3>Email Us</h3>
+        <p><a href="mailto:info@mnrestaurant.com">info@mnrestaurant.com</a></p>
+      </div>
+    </div>
+  </div>
+
+  <table>
+    <caption>Opening Hours</caption>
+    <tr>
+      <th>Saturday - Sunday</th>
+      <td>9:00 AM to 12:00 AM</td>
+    </tr>
+    <tr>
+      <th>Monday - Friday</th>
+      <td>12:00 Noon to 12:00 AM</td>
+    </tr>
+    <tr>
+      <th>Thursday</th>
+      <td>Closed</td>
+    </tr>
+  </table>
+
+  <!-- Contact Form -->
+  <div class="contact-form">
+    <h3>Send Us a Message</h3>
+    <form id="contactForm">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+      <button type="submit">Submit</button>
+    </form>
+    <p id="responseMessage"></p>
+  </div>
+
+  <!-- JavaScript to send form data -->
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const formData = {
+        name: this.name.value,
+        email: this.email.value,
+        message: this.message.value
+      };
+
+      try {
+        const response = await fetch('http://localhost:5000/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          document.getElementById('responseMessage').textContent = 'Thank you! We will contact you soon.';
+          this.reset();
+        } else {
+          document.getElementById('responseMessage').textContent = 'Something went wrong. Please try again.';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('responseMessage').textContent = 'Server error. Please try later.';
+      }
+    });
+  </script>
+
+</body>
+</html>

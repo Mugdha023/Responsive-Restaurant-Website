@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Catering - MN Restaurant</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      background-color: #000000;
+      color: #ffffff;
+    }
+
+    header img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+    }
+
+    h1, h2, h4 {
+      text-align: center;
+      margin: 20px auto;
+      max-width: 900px;
+    }
+
+    p, ul {
+      max-width: 900px;
+      margin: 10px auto;
+      padding: 0 20px;
+      font-size: 16px;
+    }
+
+    hr {
+      margin: 40px auto;
+      max-width: 900px;
+      border: 1px solid #ccc;
+    }
+
+    .catering-form {
+      background: rgb(41, 12, 12);
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .catering-form input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      box-sizing: border-box;
+    }
+
+    .catering-form button {
+      padding: 10px 20px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .catering-form button:hover {
+      background-color: #c0392b;
+    }
+
+    #responseMessage {
+      margin-top: 10px;
+      font-weight: bold;
+      color: green;
+    }
+
+    .image-right {
+      display: block;
+      max-width: 500px;
+      width: 90%;
+      margin: 20px auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    ul {
+      list-style: disc;
+      padding-left: 40px;
+      text-align: left;
+    }
+
+    @media (max-width: 600px) {
+      h1, h2, h4, p, ul {
+        padding: 0 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="https://media.istockphoto.com/id/545286388/photo/chinese-food-blank-background.jpg?s=612x612&w=0&k=20&c=pqOIy07YKO5PlU5VxjscwTGRrrZ8PluKMUjSOz-II60=" alt="Catering Banner">
+  </header>
+
+  <h1>CATERING</h1>
+  <h2>Experience the Rich Flavors of Asian Cuisine with Our Catering</h2>
+  <hr>
+
+  <h4>---- Make Your Next Event Memorable</h4>
+  <h2>With Our Specialized Catering Services</h2>
+
+  <p>
+    Are you planning a special event or celebration? Make it unforgettable with MN Restaurant’s specialized catering services. Our experienced Asian chefs create mouth-watering dishes for Eid celebrations, birthdays, weddings, and other special events.
+  </p>
+  <p>
+    For Eid celebrations, our menu features traditional dishes such as biryani, sweet dumplings with cheese or cream drizzled with syrup, and ma’amoul stuffed cookies. Our kabab plates are perfect for weddings, while hearty Asian breakfasts like fatteh hummus are ideal for smaller gatherings.
+  </p>
+  <p>
+    We work closely with you to customize the menu to your preferences. Choose from buffet-style or plated service, and let us provide all necessary equipment.
+  </p>
+  <p>
+    Our catering is available for delivery or pickup, making it convenient and hassle-free. All dishes are made fresh with the highest quality ingredients.
+  </p>
+  <p>
+    Let us help make your next event memorable with our authentic cuisine.
+  </p>
+
+  <hr>
+
+  <img class="image-right" src="https://i.pinimg.com/originals/ce/7e/45/ce7e45d96d6c03869a896c90f8bf602e.jpg" alt="Catering Dishes">
+
+  <h4>------ Tell Us More About Your</h4>
+  <h2>Catering Requirements</h2>
+
+  <p>Please tell us about your requirements by providing the following details:</p>
+  <ul>
+    <li><strong>Date and Time:</strong> When is your event?</li>
+    <li><strong>Type of Event:</strong> Corporate, wedding, birthday, etc.</li>
+    <li><strong>Number of Guests:</strong> How many people are attending?</li>
+    <li><strong>Dietary Restrictions:</strong> Any allergies or special diets?</li>
+    <li><strong>Catering Style:</strong> Buffet or plated service? Servers needed?</li>
+    <li><strong>Menu Preferences:</strong> Any special dishes?</li>
+    <li><strong>Equipment:</strong> Do you need plates, cutlery, or serving dishes?</li>
+  </ul>
+
+  <div class="catering-form">
+    <form id="cateringForm">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <input type="text" name="phone" placeholder="Phone Number" required>
+      <input type="date" name="date" required>
+      <input type="time" name="time" required>
+      <input type="number" name="quantity" placeholder="Number of Guests" required>
+      <button type="submit">Submit</button>
+    </form>
+    <p id="responseMessage"></p>
+  </div>
+
+  <script>
+    document.getElementById('cateringForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const formData = {
+        name: this.name.value,
+        email: this.email.value,
+        phone: this.phone.value,
+        date: this.date.value,
+        time: this.time.value,
+        quantity: parseInt(this.quantity.value),
+      };
+
+      try {
+        const response = await fetch('http://localhost:5000/catering', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          document.getElementById('responseMessage').textContent = 'Your response has been recorded!';
+          this.reset();
+        } else {
+          document.getElementById('responseMessage').textContent = 'Something went wrong. Please try again.';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('responseMessage').textContent = 'Server error. Please try later.';
+      }
+    });
+  </script>
+
+</body>
+</html>
